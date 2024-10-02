@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        nunito: ["nunito", "sans-serif"],
+        nunitoLight: ["nunitoLight", "sans-serif"],
+        nunitoBold: ["nunitoBold", "sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
