@@ -190,7 +190,7 @@ const ProductFlashsale = () => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g clip-path="url(#clip0_929_3175)">
+            <g clipPath="url(#clip0_929_3175)">
               <path
                 d="M4.00022 6.0865L1.64907 7.40257L2.17418 4.7598L0.195984 2.93044L2.87166 2.61319L4.00022 0.166504L5.12875 2.61319L7.80442 2.93044L5.82625 4.7598L6.35135 7.40257L4.00022 6.0865Z"
                 fill="#FFCD29"

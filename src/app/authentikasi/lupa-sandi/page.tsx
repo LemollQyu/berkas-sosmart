@@ -4,13 +4,30 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import NavBack from "../../components/backNavigasi";
+import sendOtp from "@/api/send-otp";
 
 const LupaPassword = (e: React.FormEvent) => {
   const router = useRouter();
 
-  const [email, setEmail] = useState<string>("");
+  const [emailPhone, setEmailPhone] = useState<string>("");
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const response = await sendOtp({
+        account: emailPhone,
+      });
+
+      console.log(response.data);
+      if (response.data.code == 200) {
+        router.push(`/authentikasi/lupa-sandi/kode-otp?account=${emailPhone}`);
+        router.refresh();
+      }
+    } catch (error: any) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <>
@@ -33,25 +50,16 @@ const LupaPassword = (e: React.FormEvent) => {
               Nomor ponsel atau email
             </span>
             <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={emailPhone}
+              onChange={(e) => setEmailPhone(e.target.value)}
               type="text"
               className="font-bold w-full outline-none h-full bg-[#f1f1f1]"
             />
           </div>
 
-          {/* <button
-                className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black absolute bottom-0"
-            >
-                Reset kata sandi
-            </button> */}
-
-          <Link
-            href={"/authentikasi/lupa-sandi/kode-otp"}
-            className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black absolute bottom-0"
-          >
+          <button className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black absolute bottom-0">
             Reset kata sandi
-          </Link>
+          </button>
         </form>
       </div>
     </>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import NavBar from "./layouts/navbar";
+import ActiveRoute from "./components/activeRoute";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,8 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ActiveRoute />
+        {children}
+      </body>
+
+      <NavBar />
     </html>
   );
 }

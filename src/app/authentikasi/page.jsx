@@ -1,10 +1,10 @@
 import Link from "next/link";
-import LayoutUtama from "../layouts/layoutUtama";
+import LayoutAuth from "../layouts/layoutAuth";
 
 const Home = () => {
   return (
     <>
-      <LayoutUtama>
+      <LayoutAuth>
         <div className="gap-5 flex flex-col mx-auto font-bold font-nunito absolute left-1/2 bottom-10 -translate-x-1/2">
           <Link
             href={"/authentikasi/registrasi"}
@@ -35,7 +35,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </LayoutUtama>
+      </LayoutAuth>
     </>
   );
 };

@@ -1,9 +1,16 @@
 "use client";
 import { useState, useRef, ChangeEvent, KeyboardEvent } from "react";
 import NavBack from "../../../components/backNavigasi";
+import { useRouter, useSearchParams } from "next/navigation";
+import verifyOtp from "@/api/verifikasi-otp";
 
 export default function OtpInput() {
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
+  const searchParams = useSearchParams();
+
+  const emailPhone = searchParams.get("account");
+
+  const router = useRouter();
 
   // Inisialisasi dengan tipe yang lebih eksplisit
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -30,12 +37,35 @@ export default function OtpInput() {
     }
   };
 
-  function handleAction(event: React.FormEvent): void {
+  async function handleAction(event: React.FormEvent) {
     event.preventDefault();
 
     const data = { otp };
 
     console.log(data);
+
+    let tempString: string = "";
+
+    data.otp.forEach((item) => {
+      tempString += item;
+    });
+
+    try {
+      const response = await verifyOtp({
+        account: emailPhone || "",
+        otp: tempString || "",
+      });
+
+      console.log(response.data);
+
+      if (response.data.code == 200) {
+        router.push(
+          `/authentikasi/sandi-baru?otpId=${response.data.data.otp_id}}&userId=${response.data.data.user_id}`
+        );
+      }
+    } catch (error: any) {
+      console.log(error.response);
+    }
   }
 
   return (

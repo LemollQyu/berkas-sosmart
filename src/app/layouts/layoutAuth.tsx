@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from "react";
 
 interface LayoutUtamaProps {
@@ -5,11 +6,7 @@ interface LayoutUtamaProps {
 }
 
 const LayoutUtama: React.FC<LayoutUtamaProps> = ({ children }) => {
-  return (
-    <div className="max-w-[500px] mx-auto border border-green-800">
-      {children}
-    </div>
-  );
+  return <div className=" mx-auto w-[360px] border-2">{children}</div>;
 };
 
 export default LayoutUtama;

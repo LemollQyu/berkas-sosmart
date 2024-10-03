@@ -1,10 +1,10 @@
 import NavBar from "../layouts/navbar";
 
-export default function Toko() {
+export default function Feed() {
   return (
     <>
       <NavBar>
-        <h1>Hallo</h1>
+        <h1> Feed</h1>
       </NavBar>
     </>
   );

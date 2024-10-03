@@ -16,7 +16,7 @@ export default async function PostRegistrasi({
   password_confirmation,
 }: RegisterType) {
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/v1/register`,
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/register`,
     {
       username: name,
       phone: phone,
