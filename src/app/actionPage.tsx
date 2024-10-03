@@ -3,6 +3,7 @@
 import { createContext, ReactNode } from "react";
 import HomePage from "./components/homepage/homepage";
 import UserCookie from "./layouts/userCookie";
+import UserSettings from "./user-settings/page";
 
 type HomePageType = {
   acces_token: string | undefined;

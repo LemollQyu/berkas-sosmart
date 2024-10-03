@@ -20,7 +20,7 @@ const LogOut = ({ token }: PropsLogOut) => {
   const handleLogout = async (token: string | undefined) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/v1/logout`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/logout`,
         {},
         {
           headers: {

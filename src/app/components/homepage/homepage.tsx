@@ -7,13 +7,33 @@ import Link from "next/link";
 
 import NavBar from "@/app/layouts/navbar";
 import { AppContext } from "@/app/actionPage";
+import axios from "axios";
+import { assert } from "console";
 
 const HomePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isClient, setClient] = useState<boolean>(false);
   const { account } = useContext<any>(AppContext);
 
+  const [products, setProducts] = useState<any>();
+
   console.log({ account });
+
+  // fetch api products
+
+  const getProducts = async () => {
+    let response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/ product`
+    );
+
+    setProducts(response.data);
+
+    console.log(response);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   const categories: string[] = [
     "Pria",

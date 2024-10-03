@@ -184,7 +184,7 @@ const NavBar = ({ children }: any) => {
               </div>
             </Link>
             <Link
-              href="/profile"
+              href="/user-settings"
               className="w-[90px]  flex items-center justify-center h-full  "
               id="4"
             >
