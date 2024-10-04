@@ -16,10 +16,10 @@ const NavBar = ({ children }: any) => {
   const clickEffect = (e: any) => {
     e.preventDefault();
 
-    const home = "left-0";
-    const feed = "left-[89px]";
-    const shop = "left-[179px]";
-    const profile = "left-[270px]";
+    const home = "left-[17px]";
+    const feed = "left-[106px]";
+    const shop = "left-[196px]";
+    const profile = "left-[286px]";
 
     // console.log(e);
     if (e.target.id == "1") {
@@ -45,33 +45,51 @@ const NavBar = ({ children }: any) => {
     setClient(true);
   }, []);
 
-  const onOf = `mx-auto relative w-[360px] border ${
+  const onOf = `mx-auto relative w-[360px]  ${
     pathname === "/authentikasi" ||
     pathname === "/authentikasi/login" ||
     pathname === "/authentikasi/registrasi" ||
     pathname == "/authentikasi/lupa-sandi" ||
     pathname == "/authentikasi/sandi-baru" ||
-    pathname == "/authentikasi/lupa-sandi/kode-otp"
+    pathname == "/authentikasi/lupa-sandi/kode-otp" ||
+    pathname == "/callback-google"
       ? "hidden"
       : ""
   }`;
 
-  const activeCss = `transition-all duration-1000 absolute bottom-4 ${moveCss} ${active}  -z-20`;
+  const activeCss = `transition-all duration-1000 absolute bottom-2 ${moveCss} ${active}  -z-20`;
 
   const cssBlob =
-    "w-[44px] h-[44px] border rounded-full flex justify-center items-center -z-10 ";
+    "w-[28px] h-[28px] border rounded-full flex justify-center items-center -z-10 ";
 
   return (
     <>
       {isClient && (
-        <main className={onOf}>
+        <div className={onOf}>
           {children}
 
           <div
-            className="w-[360px] bg-white h-[55px]  fixed bg -translate-x-1/2  left-1/2 bottom-0 flex"
+            className="w-[360px] bg-white h-[44px]  fixed bg -translate-x-1/2  left-1/2 bottom-0 flex"
             onClick={clickEffect}
           >
+            {/* Svg eclipse terbaru */}
+
             <svg
+              width="56"
+              height="64"
+              viewBox="0 0 56 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className={activeCss}
+            >
+              <path
+                d="M56 32C37 32 45.2894 64 28.5478 64C11.8061 64 19 32 0 32C0 14.3269 11.8061 0 28.5478 0C45.2894 0 56 14.3269 56 32Z"
+                fill="#51D7B1"
+              />
+            </svg>
+
+            {/* penutup svg eclipse terbaru  */}
+            {/* <svg
               width="90"
               height="78"
               viewBox="0 0 84 84"
@@ -83,7 +101,7 @@ const NavBar = ({ children }: any) => {
                 d="M84 42C58 42 67.9341 84 42.8216 84C17.7091 84 24 42 0 42C0 27 17.7091 5 42.8216 5C64 5 84 27 84 42Z"
                 fill="#51D7B1"
               />
-            </svg>
+            </svg> */}
 
             <Link
               href="/"
@@ -214,7 +232,7 @@ const NavBar = ({ children }: any) => {
               </div>
             </Link>
           </div>
-        </main>
+        </div>
       )}
     </>
   );

@@ -25,7 +25,7 @@ const Home = () => {
 
           <div className="mx-auto gap-[20px] flex">
             <Link
-              href={`${process.env.NEXT_PUBLIC_BASE_API_URL}/oauth-google`}
+              href={`${process.env.NEXT_PUBLIC_BASE_API_URL_2}/oauth-google`}
               className="w-[44px] h-[44px] rounded-full bg-[#dfdfdf] flex justify-center items-center"
             >
               <img src="/icon/wrapper.png" />

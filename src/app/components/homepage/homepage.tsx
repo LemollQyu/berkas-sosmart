@@ -21,19 +21,19 @@ const HomePage: React.FC = () => {
 
   // fetch api products
 
-  const getProducts = async () => {
-    let response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/ product`
-    );
+  // const getProducts = async () => {
+  //   let response = await axios.get(
+  //     `${process.env.NEXT_PUBLIC_BASE_API_URL}/product`
+  //   );
 
-    setProducts(response.data);
+  //   setProducts(response.data);
 
-    console.log(response);
-  };
+  //   console.log(response);
+  // };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  // useEffect(() => {
+  //   getProducts();
+  // }, []);
 
   const categories: string[] = [
     "Pria",
