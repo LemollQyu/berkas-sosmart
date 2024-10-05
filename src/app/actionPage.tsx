@@ -3,10 +3,9 @@
 import { createContext, ReactNode } from "react";
 import HomePage from "./components/homepage/homepage";
 import UserCookie from "./layouts/userCookie";
-import UserSettings from "./user-settings/page";
 
 type HomePageType = {
-  acces_token: string | undefined;
+  access_token: string | undefined;
   refresh_token: string | undefined;
   account: Account | null;
 };
@@ -19,7 +18,7 @@ type Account = {
 
 // Tipe untuk AppContext
 type AppContextType = {
-  acces_token: string;
+  access_token: string;
   refresh_token: string;
   account: Account;
 } | null;
@@ -27,7 +26,7 @@ type AppContextType = {
 export const AppContext = createContext<AppContextType>(null);
 
 export default function ActionPage({
-  acces_token,
+  access_token,
   refresh_token,
   account,
 }: HomePageType) {
@@ -35,7 +34,7 @@ export default function ActionPage({
     <>
       <AppContext.Provider
         value={{
-          acces_token: acces_token || "",
+          access_token: access_token || "",
           refresh_token: refresh_token || "",
           account: account!,
         }}

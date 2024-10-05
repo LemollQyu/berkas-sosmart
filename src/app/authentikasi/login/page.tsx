@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import postLogin from "@/api/login";
-import saveToken from "@/cookie/saveToken";
 import BackNav from "../../components/backNavigasi";
+import saveAccount from "@/cookie/saveAccount";
 
 type LoginResponse = {
   code: number;
@@ -35,7 +35,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { emailPhone, password };
+    // const data = { emailPhone, password };
 
     try {
       const response = await postLogin({
@@ -51,7 +51,7 @@ const Login = () => {
       console.log(dataResponse.code);
       console.log(dataResponse.message);
 
-      await saveToken(dataResponse.data);
+      await saveAccount(dataResponse.data);
 
       router.push("/");
     } catch (error: any) {

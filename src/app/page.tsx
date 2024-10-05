@@ -6,13 +6,13 @@ import ActionPage from "./actionPage";
 import getRefreshToken from "@/cookie/getRefreshToken";
 
 const Home = async () => {
-  const acces_token = await getToken();
+  const access_token = await getToken();
   const refresh_token = await getRefreshToken();
   const getAccountFromCookies = await getAccount();
   return (
     <>
       <ActionPage
-        acces_token={acces_token?.value}
+        access_token={access_token?.value}
         refresh_token={refresh_token?.value}
         account={getAccountFromCookies}
       />

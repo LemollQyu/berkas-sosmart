@@ -12,9 +12,9 @@ type token = {
   phone: string;
 };
 
-export default async function saveToken(token: token) {
+export default async function saveAccount(token: token) {
   const exp = 7200;
-  cookies().set("acces-token", token.access_token, { maxAge: exp });
+  cookies().set("access-token", token.access_token, { maxAge: exp });
   cookies().set("refresh-token", token.refresh_token, { maxAge: exp });
   cookies().set("username", token.username, { maxAge: exp });
   cookies().set("email", token.email, { maxAge: exp });

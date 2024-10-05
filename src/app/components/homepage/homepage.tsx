@@ -9,31 +9,84 @@ import NavBar from "@/app/layouts/navbar";
 import { AppContext } from "@/app/actionPage";
 import axios from "axios";
 import { assert } from "console";
+import getCategory from "@/api/getCategory";
+import { useSearchParams } from "next/navigation";
+import getProduct from "@/api/getProducts";
+
+type DataContext = {
+  access_token: string;
+  refresh_token: string;
+  account: Account;
+};
+
+type Account = {
+  username: string;
+  phone: string;
+  email: string;
+};
 
 const HomePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory2, setSelectedCategory2] = useState<number | null>(
+    null
+  );
+  const [loadingHomePage, setLoadingHomePage] = useState<boolean>(true);
   const [isClient, setClient] = useState<boolean>(false);
-  const { account } = useContext<any>(AppContext);
 
   const [products, setProducts] = useState<any>();
+  const [category, setCategory] = useState<any>([]);
+  const [page, setPage] = useState<number>(1);
 
-  console.log({ account });
+  const searchParams = useSearchParams();
+  const categoryParams = searchParams.get("category");
+
+  const context = useContext(AppContext);
+
+  if (!context) {
+    return <div>Loading...</div>;
+  }
+
+  const { access_token, refresh_token, account }: DataContext = context;
 
   // fetch api products
 
   // const getProducts = async () => {
-  //   let response = await axios.get(
-  //     `${process.env.NEXT_PUBLIC_BASE_API_URL}/product`
-  //   );
+  //   let response = await
 
   //   setProducts(response.data);
 
   //   console.log(response);
   // };
 
-  // useEffect(() => {
-  //   getProducts();
-  // }, []);
+  useEffect(() => {
+    async function fetchData() {
+      setLoadingHomePage(true);
+
+      const dataCategory = await getCategory();
+      setCategory(dataCategory.data);
+
+      console.log({
+        dataCategory,
+      });
+
+      if (categoryParams == null || categoryParams == undefined) {
+        console.log("category: ", dataCategory.data[0].id);
+        const dataProduct = await getProduct({
+          page: page,
+          category: `${dataCategory.data[0].id}`,
+        });
+        setProducts(dataProduct.data.data_product);
+
+        console.log(dataProduct);
+      }
+
+      setLoadingHomePage(false);
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {}, [page, categoryParams]);
 
   const categories: string[] = [
     "Pria",
@@ -46,12 +99,21 @@ const HomePage: React.FC = () => {
     "Hewan",
   ];
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
+  // const handleCategoryClick = (category: string) => {
+  //   setSelectedCategory(category);
+  // };
+
+  const handleCategoryClick = (category_id: number) => {
+    setSelectedCategory2(category_id);
   };
 
   useEffect(() => {
     setClient(true);
+    console.log({
+      access_token,
+      refresh_token,
+      account,
+    });
   }, []);
 
   return (
@@ -148,19 +210,20 @@ const HomePage: React.FC = () => {
 
             {/* Kategori */}
             <div className="categories flex justify-around gap-2.5 mt-4 bg-gray-100 rounded-md shadow-md overflow-x-auto whitespace-nowrap scrollbar-hide">
-              {categories.map((category: string) => (
-                <button
-                  key={category}
-                  className={`px-4 py-2 rounded-md text-xs flex items-center justify-center transition-all duration-200 ${
-                    selectedCategory === category
-                      ? "bg-gradient-to-r from-[#83E69B] to-[#00BAE1] text-white shadow-md"
-                      : "bg-white text-gray-700"
-                  }`}
-                  onClick={() => handleCategoryClick(category)}
-                >
-                  {category}
-                </button>
-              ))}
+              {!loadingHomePage &&
+                category.map((value: any, i: number) => (
+                  <button
+                    key={i}
+                    className={`px-4 py-2 rounded-md text-xs flex items-center justify-center transition-all duration-200 ${
+                      selectedCategory2 === value.id
+                        ? "bg-gradient-to-r from-[#83E69B] to-[#00BAE1] text-white shadow-md"
+                        : "bg-white text-gray-700"
+                    }`}
+                    onClick={() => handleCategoryClick(value.id)}
+                  >
+                    {value.name}
+                  </button>
+                ))}
             </div>
 
             {/* Flash Sale Section */}
