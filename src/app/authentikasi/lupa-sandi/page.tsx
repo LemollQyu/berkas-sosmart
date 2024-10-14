@@ -57,8 +57,8 @@ const LupaPassword = (e: React.FormEvent) => {
             />
           </div>
 
-          <button className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black absolute bottom-0">
-            Reset kata sandi
+          <button className="w-full bg-[#51D7B1] text-white mt-5 rounded-lg h-[50px] flex items-center justify-center absolute bottom-0">
+            <p className="text-white">Reset kata sandi</p>
           </button>
         </form>
       </div>

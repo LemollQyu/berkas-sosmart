@@ -180,6 +180,16 @@ const Register = () => {
             </div>
           </div>
 
+          <div className="border w-[312px] h-[47px] rounded-lg px-2 pt-4 bg-[#f1f1f1] relative">
+            <span className="absolute text-xs left-2 top-0">Password</span>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="font-bold w-full h-full bg-[#f1f1f1] outline-none"
+              type="password"
+            />
+          </div>
+
           <p className="text-sm font-extralight">
             Kata sandi minimal 5 karakter
           </p>
@@ -190,7 +200,7 @@ const Register = () => {
 
           {/* <SpanError /> */}
 
-          <button className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black">
+          <button className="w-full border bg-[#51D7B1] text-white mt-5 rounded-lg h-[50px] flex items-center justify-center ">
             Daftar
           </button>
         </form>
@@ -208,9 +218,12 @@ const Register = () => {
           <div className="w-[44px] h-[44px] rounded-full bg-[#dfdfdf] flex justify-center items-center">
             <img src="/icon/wrapper.png" />
           </div>
-          <div className="w-[44px] h-[44px] rounded-full bg-[#dfdfdf] flex justify-center items-center">
+          <Link
+            href={"/authentikasi/login"}
+            className="w-[44px] h-[44px] rounded-full bg-[#dfdfdf] flex justify-center items-center"
+          >
             <img src="/icon/mobile.png" />
-          </div>
+          </Link>
         </div>
       </div>
     </>

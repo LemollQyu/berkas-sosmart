@@ -1,12 +1,12 @@
 "use client";
 
-import { createContext, ReactNode } from "react";
-import HomePage from "./components/homepage/homepage";
+import { Children, createContext, ReactNode } from "react";
 
 type HomePageType = {
   access_token: string | undefined;
   refresh_token: string | undefined;
   account: Account | null;
+  children: any;
 };
 
 type Account = {
@@ -28,6 +28,7 @@ export default function ActionPage({
   access_token,
   refresh_token,
   account,
+  children,
 }: HomePageType) {
   return (
     <>
@@ -38,7 +39,7 @@ export default function ActionPage({
           account: account!,
         }}
       >
-        <HomePage />
+        {children}
       </AppContext.Provider>
     </>
   );

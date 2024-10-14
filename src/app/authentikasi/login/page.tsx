@@ -83,7 +83,7 @@ const Login = () => {
   return (
     <>
       <BackNav />
-      <div className="auth page flex flex-col gap-12 font-nunito bottom-16 absolute left-1/2 -translate-x-1/2">
+      <div className="  page flex flex-col gap-12 font-nunito bottom-10 absolute left-1/2 -translate-x-1/2">
         <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto overflow-hidden">
           <Image
             className="w-full h-full object-cover"
@@ -134,7 +134,7 @@ const Login = () => {
             {resData && resData.message !== undefined ? resData.message : ""}
           </p>
 
-          <button className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black">
+          <button className="w-full text-white  mt-5 rounded-lg h-[50px] flex items-center justify-center bg-[#51D7B1]">
             Masuk
           </button>
           <p className="text-center font-bold">
@@ -149,14 +149,12 @@ const Login = () => {
 
         <SpanError />
 
-        <div className="flex justify-center space-x-4">
-          <p className="text-center">
-            Belum punya akun?
-            <span className="font-bold text-blue-500">
-              <Link href={"/authentikasi/registrasi"}> Daftar </Link>
-            </span>
-          </p>
-        </div>
+        <Link
+          href={"/authentikasi/registrasi"}
+          className="bg-[#51D7B1] flex justify-center space-x-4 py-3  rounded-md border"
+        >
+          <span className="font-nunito text-white">Buat akun baru</span>
+        </Link>
       </div>
     </>
   );

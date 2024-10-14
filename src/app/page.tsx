@@ -1,5 +1,3 @@
-import UserCookie from "./layouts/userCookie";
-import HomePage from "./components/homepage/homepage";
 import getToken from "@/cookie/getToken";
 import getAccount from "@/cookie/getAccount";
 import ActionPage from "./actionPage";

@@ -1,10 +1,16 @@
+"use client";
+
 import NavBar from "../layouts/navbar";
+import LayoutFeed from "./layout";
+import { useContext } from "react";
 
 export default function Feed() {
   return (
     <>
       <NavBar>
-        <h1> Feed</h1>
+        <LayoutFeed>
+          <p>hello world</p>
+        </LayoutFeed>
       </NavBar>
     </>
   );

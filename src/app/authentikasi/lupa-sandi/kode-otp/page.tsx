@@ -103,7 +103,7 @@ export default function OtpInput() {
           {/* <Link href={"/authentikasi/sandi-baru"}> */}
           <button
             onClick={() => alert(`Entered OTP is: ${otp.join("")}`)}
-            className="w-full border mt-5 rounded-lg h-[50px] flex items-center justify-center border-2 border-black"
+            className="w-full bg-[#51D7B1] border mt-5 rounded-lg h-[50px] flex items-center justify-center"
           >
             Reset kata sandi
           </button>
@@ -112,7 +112,7 @@ export default function OtpInput() {
 
         <span className="inline-block flex flex-col justify-center items-center">
           <p className="font-nunitoLight">Belum menerima code?</p>
-          <button className="text-blue-400 font-nunito">
+          <button className="text-blue-400 font-nunito ">
             Kirim code ulang
           </button>
         </span>

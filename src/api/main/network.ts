@@ -50,7 +50,7 @@ async function refreshToken() {
     }
 
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/refresh-token`, // Assuming your refresh token endpoint
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/refresh/token`, // Assuming your refresh token endpoint
       {
         refresh_token: refreshToken.value,
       }
@@ -58,16 +58,16 @@ async function refreshToken() {
 
     const newAccessToken = response.data.data.access_token;
     const newRefreshToken = response.data.data.refresh_token;
-    const exp = 7200;
+    const exp = 86400;
 
     // You might need to update cookies here if you're on the client-side.
     // Use client-side cookie handling mechanism, such as js-cookie or Next.js API routes to set cookies.
     // e.g., js-cookie or manually setting cookies in the client if needed
 
-    cookies().set("access_token", response.data.data.access_token, {
+    cookies().set("access_token", newAccessToken, {
       maxAge: exp,
     });
-    cookies().set("refresh_token", response.data.data.refresh_token, {
+    cookies().set("refresh_token", newRefreshToken, {
       maxAge: exp,
     });
 

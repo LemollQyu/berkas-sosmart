@@ -13,7 +13,7 @@ type token = {
 };
 
 export default async function saveAccount(token: token) {
-  const exp = 7200;
+  const exp = 86400;
   cookies().set("access-token", token.access_token, { maxAge: exp });
   cookies().set("refresh-token", token.refresh_token, { maxAge: exp });
   cookies().set("username", token.username, { maxAge: exp });

@@ -37,7 +37,7 @@ const ProductCard = ({
           <div
             className="absolute w-[145px] h-[109px] bg-white border border-black rounded-t-lg"
             style={{
-              backgroundImage: `url(/image/${linkImage})`, // Set the background image here
+              backgroundImage: `url(${linkImage})`, // Set the background image here
               backgroundSize: "cover", // Ensures the image covers the entire container
               backgroundPosition: "center", // Centers the image within the container
             }}

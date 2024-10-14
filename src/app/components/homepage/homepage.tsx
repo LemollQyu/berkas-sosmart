@@ -7,11 +7,12 @@ import Link from "next/link";
 
 import NavBar from "@/app/layouts/navbar";
 import { AppContext } from "@/app/actionPage";
-import axios from "axios";
-import { assert } from "console";
+
 import getCategory from "@/api/getCategory";
 import { useSearchParams } from "next/navigation";
 import getProduct from "@/api/getProducts";
+import Image from "next/image";
+import Loading from "../loading";
 
 type DataContext = {
   access_token: string;
@@ -30,17 +31,25 @@ const HomePage: React.FC = () => {
   const [selectedCategory2, setSelectedCategory2] = useState<number | null>(
     null
   );
+
+  const [idCategory, setIdCategory] = useState<string>("");
+
   const [loadingHomePage, setLoadingHomePage] = useState<boolean>(true);
   const [isClient, setClient] = useState<boolean>(false);
 
-  const [products, setProducts] = useState<any>();
+  const [products, setProducts] = useState<any>([]);
   const [category, setCategory] = useState<any>([]);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  //state untuk page infinite scroll
   const [page, setPage] = useState<number>(1);
 
   const searchParams = useSearchParams();
   const categoryParams = searchParams.get("category");
 
   const context = useContext(AppContext);
+
+  const dataId: any[] = [];
 
   if (!context) {
     return <div>Loading...</div>;
@@ -60,52 +69,110 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-      setLoadingHomePage(true);
-
       const dataCategory = await getCategory();
       setCategory(dataCategory.data);
+
+      console.log({ category });
 
       console.log({
         dataCategory,
       });
-
-      if (categoryParams == null || categoryParams == undefined) {
-        console.log("category: ", dataCategory.data[0].id);
-        const dataProduct = await getProduct({
-          page: page,
-          category: `${dataCategory.data[0].id}`,
-        });
-        setProducts(dataProduct.data.data_product);
-
-        console.log(dataProduct);
-      }
-
-      setLoadingHomePage(false);
     }
 
     fetchData();
   }, []);
 
-  useEffect(() => {}, [page, categoryParams]);
+  async function fetchData(currentPage: number) {
+    setLoadingHomePage(true);
 
-  const categories: string[] = [
-    "Pria",
-    "Wanita",
-    "Elektronik",
-    "Fashion",
-    "Harian",
-    "Mainan",
-    "Olahraga",
-    "Hewan",
-  ];
+    // const dataCategory = await getCategory();
+    // setCategory(dataCategory.data);
+
+    // console.log({ category });
+
+    // console.log({
+    //   dataCategory,
+    // });
+
+    const dataProduct = await getProduct({
+      page: page,
+      category: `${idCategory}`,
+    });
+
+    // setProducts(dataProduct.data.data_product);
+    setProducts((prevData: any) => [
+      ...prevData,
+      ...dataProduct.data.data_product,
+    ]);
+    setHasMore(dataProduct.data.current_page < dataProduct.data.last_page);
+    setPage(currentPage);
+
+    setLoadingHomePage(false);
+  }
+
+  useEffect(() => {
+    fetchData(page);
+  }, [idCategory]);
+
+  // const handleScroll = () => {
+  //   console.log("height : ", document.documentElement.scrollHeight);
+  //   console.log("top : ", document.documentElement.scrollTop);
+  //   console.log("Window : ", window.innerHeight);
+
+  //   // if (
+  //   //   window.innerHeight + document.documentElement.scrollTop + 1 >=
+  //   //   document.documentElement.scrollHeight
+  //   // ) {
+  //   //   setPage((prev) => prev + 1);
+  //   //   console.log(page);
+  //   // }
+  // };
+
+  // console.log({ "data Produk": products });
+  // console.log({ "data Category": category[0].id });
+  // console.log({ "data Category": category[0].name });
+
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
+  // const categories: string[] = [
+  //   "Pria",
+  //   "Wanita",
+  //   "Elektronik",
+  //   "Fashion",
+  //   "Harian",
+  //   "Mainan",
+  //   "Olahraga",
+  //   "Hewan",
+  // ];
 
   // const handleCategoryClick = (category: string) => {
   //   setSelectedCategory(category);
   // };
 
-  const handleCategoryClick = (category_id: number) => {
-    setSelectedCategory2(category_id);
+  // const handleCategoryClick = (category_id: number) => {
+  //   setSelectedCategory2(category_id);
+  // };
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      loadingHomePage
+    ) {
+      return;
+    }
+    if (hasMore) {
+      fetchData(page + 1); // Fetch next page
+    }
   };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [page, loadingHomePage, hasMore]);
 
   useEffect(() => {
     setClient(true);
@@ -116,9 +183,73 @@ const HomePage: React.FC = () => {
     });
   }, []);
 
+  const handleClick = (id: any) => {
+    setIdCategory(id);
+    console.log(id);
+  };
+
+  console.log(idCategory);
+  console.log(products);
+
   return (
     <>
-      {isClient && (
+      <NavBar>
+        {/* header */}
+
+        <div className="w-full border h-[40px] ">
+          <p>ini bagian Header</p>
+        </div>
+
+        {/* akhir header */}
+        {/* category */}
+
+        <div className="border w-full overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <div className="flex gap-2 w-[2000px] border">
+            {category.map((collect: any, index: number) => {
+              return (
+                <button
+                  onClick={() => handleClick(collect.id)}
+                  className="border p-2"
+                  key={index}
+                >
+                  <p className="text-xs ">{collect.name}</p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* tutup category */}
+
+        <div className="w-[350px] border-blue-400 border-2 pb-20 grid grid-cols-2 gap-5 px-6">
+          {products?.map((product: any, index: number) => {
+            return (
+              // <div key={index} className="mt-20">
+              //   <p>{product.name}</p>
+              //   <Image
+              //     src={product.image_product[0]?.image_url}
+              //     width={200}
+              //     height={200}
+              //     alt={product.name}
+              //     className="border"
+              //   />
+              // </div>
+
+              <ProductCard
+                key={index}
+                nameProduct={product.name}
+                linkImage={product.image_product[0]?.image_url}
+                priceAsli={19000}
+                discountPrice={10000}
+                star={product.rating_product.rating}
+                lokasi={`${product.merchant.city}, ${product.merchant.country}`}
+                linkHref={`${product.id}`}
+              />
+            );
+          })}
+        </div>
+      </NavBar>
+      {/* {isClient && (
         <>
           <NavBar>
             <div
@@ -131,9 +262,7 @@ const HomePage: React.FC = () => {
                 backgroundColor: "lightgray",
               }}
             >
-              {/* Search Bar and Icons */}
               <div className="rounded-md flex justify-between items-center absolute top-5 gap-6 mx-4 mt-0">
-                {/* Input Pencarian dengan Icon */}
                 <div className="flex items-center w-[184px] h-[36px] border rounded-md px-4 bg-white ml-4 shadow-lg">
                   <svg
                     width="24"
@@ -155,9 +284,7 @@ const HomePage: React.FC = () => {
                   />
                 </div>
 
-                {/* Icons Container */}
                 <div className="px-4 py-2 flex gap-2">
-                  {/* Icon Chat */}
                   <div className="w-[36px] h-[36px] rounded-md border flex justify-center items-center bg-white hover:bg-gray-50 transition cursor-pointer shadow-md">
                     <svg
                       width="24"
@@ -173,7 +300,6 @@ const HomePage: React.FC = () => {
                     </svg>
                   </div>
 
-                  {/* Icon Filter */}
                   <div className="w-[36px] h-[36px] rounded-md border flex justify-center items-center bg-white hover:bg-gray-50 transition shadow-md">
                     <svg
                       width="24"
@@ -189,7 +315,6 @@ const HomePage: React.FC = () => {
                     </svg>
                   </div>
 
-                  {/* Icon Notifikasi */}
                   <div className="w-[36px] h-[36px] rounded-md border flex justify-center items-center bg-white hover:bg-gray-50 transition shadow-md">
                     <svg
                       width="24"
@@ -208,7 +333,6 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Kategori */}
             <div className="categories flex justify-around gap-2.5 mt-4 bg-gray-100 rounded-md shadow-md overflow-x-auto whitespace-nowrap scrollbar-hide">
               {!loadingHomePage &&
                 category.map((value: any, i: number) => (
@@ -226,7 +350,6 @@ const HomePage: React.FC = () => {
                 ))}
             </div>
 
-            {/* Flash Sale Section */}
             <section className="mt-6 bg-gray-100 rounded-md shadow-md p-4">
               <div className="px-6 py-1 flex justify-between items-center mb-1">
                 <h2 className="text-black font-nunito text-[13px] font-semibold leading-[18px] tracking-[-0.276px]">
@@ -257,7 +380,6 @@ const HomePage: React.FC = () => {
                 </h3>
               </div>
 
-              {/* Product Flash Sale Grid */}
               <div className="product-grid grid grid-cols-2 gap-y-8 gap-x-5 mt-4 mx-auto justify-items-center">
                 <ProductFlashsale />
                 <ProductFlashsale />
@@ -266,7 +388,6 @@ const HomePage: React.FC = () => {
               </div>
             </section>
 
-            {/* Product Grid */}
             <div className="product-grid grid grid-cols-2 gap-y-8 gap-x-5 px-4 py-4 mx-auto justify-items-center">
               <ProductCard
                 nameProduct="sepeatu"
@@ -322,11 +443,10 @@ const HomePage: React.FC = () => {
                 lokasi="Surabaya, Indonesia"
                 linkHref="/lemoll/poiuy"
               />
-              {/* Tambahkan lebih banyak ProductCard di sini */}
             </div>
           </NavBar>
         </>
-      )}
+      )} */}
     </>
   );
 };

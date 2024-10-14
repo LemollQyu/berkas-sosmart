@@ -13,7 +13,7 @@ const BackNav = () => {
     <>
       <button
         onClick={handleBack}
-        className="w-[40px] h-[40px] rounded-full border flex justify-center items-center absolute top-3 left-9"
+        className="w-[40px] h-[40px] rounded-full bg-[#f1f1f1]  flex justify-center items-center absolute top-3 left-5"
       >
         <svg
           width="7"
